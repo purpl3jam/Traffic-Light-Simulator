@@ -23,6 +23,10 @@ public:
 	int blockI;
 	int blockY;
 
+	// Traffic light variables
+	bool TLSS = false;
+	bool TLNS;
+
 private:
 	//TrafficLightEngine m_oTiles;
 };
