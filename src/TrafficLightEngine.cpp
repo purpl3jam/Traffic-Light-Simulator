@@ -11,6 +11,7 @@
 #include "BlockObject4.h"
 #include "BlockObject5.h"
 #include "BlockObject6.h"
+#include "VehicleObject.h"
 
 #include <iostream>
 #include <string>
@@ -20,8 +21,8 @@ TrafficLightEngine::TrafficLightEngine()
 	: BaseEngine( 6 )
 { 
 
-	// Number of objects
-	quantity = 9;
+	// Number of vehicles
+	quantity = 1;
 }
 
 
@@ -55,20 +56,34 @@ int TrafficLightEngine::InitialiseObjects(void)
 	DestroyOldObjects();
 	// Creates an array to store the objects
 	// Needs to have room for the NULL at the end
-	CreateObjectArray(7);
+	CreateObjectArray(quantity + 6);
 	// You MUST set the array entry after the last one that you create to NULL, so that the system knows when to stop.
 	// i.e. The LAST entry has to be NULL. The fact that it is NULL is used in order to work out where the end of the array is.
-
+	
 	//last entry to NULL
+	StoreObjectInArray(quantity + 7, NULL);
+
+	//Generate South vehicles
+	sQuantity = 1;
+	for (int i = 0; i < sQuantity; i++) {
+		SpawnSouthVehicles(i + 6);
+	}
+
+	
 	StoreObjectInArray(0, new BlockObject1(this));
 	StoreObjectInArray(1, new BlockObject2(this));
 	StoreObjectInArray(2, new BlockObject3(this));
 	StoreObjectInArray(3, new BlockObject4(this));
 	StoreObjectInArray(4, new BlockObject5(this));
 	StoreObjectInArray(5, new BlockObject6(this));
-	StoreObjectInArray(6, NULL);
+	
+	
 
 
 	return 0;
 }
 
+void TrafficLightEngine::SpawnSouthVehicles(int i)
+{
+	StoreObjectInArray(i, new VehicleObject(this, 460, 970));
+}
