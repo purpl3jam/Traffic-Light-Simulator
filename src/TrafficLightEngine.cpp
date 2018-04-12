@@ -11,14 +11,28 @@
 #include "BlockObject4.h"
 #include "BlockObject5.h"
 #include "BlockObject6.h"
-#include "VehicleObject.h"
+#include "BlockObject7.h"
+#include "BlockObject8.h"
+
+#include "TrafficLightSS.h"
+#include "TrafficLightNS.h"
+#include "TrafficLightNN.h"
+#include "TrafficLightSN.h"
+#include "TrafficLightSW.h"
+#include "TrafficLightNW.h"
+#include "TrafficLightSE.h"
+#include "TrafficLightNE.h"
+
+#include "VehicleObjectSouth.h"
 
 #include <iostream>
 #include <string>
 #include <sstream>
 
+#define BASE_OBJECTS 16
+
 TrafficLightEngine::TrafficLightEngine()
-	: BaseEngine( 6 )
+	: BaseEngine( BASE_OBJECTS )
 { 
 
 	// Number of vehicles
@@ -56,28 +70,37 @@ int TrafficLightEngine::InitialiseObjects(void)
 	DestroyOldObjects();
 	// Creates an array to store the objects
 	// Needs to have room for the NULL at the end
-	CreateObjectArray(quantity + 6);
+	CreateObjectArray(quantity + BASE_OBJECTS);
 	// You MUST set the array entry after the last one that you create to NULL, so that the system knows when to stop.
 	// i.e. The LAST entry has to be NULL. The fact that it is NULL is used in order to work out where the end of the array is.
 	
 	//last entry to NULL
-	StoreObjectInArray(quantity + 7, NULL);
+	StoreObjectInArray(quantity + BASE_OBJECTS, NULL);
 
-	//Generate South vehicles
-	sQuantity = 1;
-	for (int i = 0; i < sQuantity; i++) {
-		SpawnSouthVehicles(i + 6);
-	}
-
-	
+	//Generate fixed objects
 	StoreObjectInArray(0, new BlockObject1(this));
 	StoreObjectInArray(1, new BlockObject2(this));
 	StoreObjectInArray(2, new BlockObject3(this));
 	StoreObjectInArray(3, new BlockObject4(this));
 	StoreObjectInArray(4, new BlockObject5(this));
 	StoreObjectInArray(5, new BlockObject6(this));
-	
-	
+	StoreObjectInArray(6, new BlockObject7(this));
+	StoreObjectInArray(7, new BlockObject8(this));
+	StoreObjectInArray(8, new TrafficLightSS(this));
+	StoreObjectInArray(9, new TrafficLightNS(this));
+	StoreObjectInArray(10, new TrafficLightNN(this));
+	StoreObjectInArray(11, new TrafficLightSN(this));
+	StoreObjectInArray(12, new TrafficLightSW(this));
+	StoreObjectInArray(13, new TrafficLightNW(this));
+	StoreObjectInArray(14, new TrafficLightSE(this));
+	StoreObjectInArray(15, new TrafficLightNE(this));
+
+	//Generate South vehicles
+	sQuantity = 1;
+	for (int i = 0; i < sQuantity; i++) {
+		SpawnSouthVehicles(i + BASE_OBJECTS);
+	}
+
 
 
 	return 0;
@@ -85,5 +108,5 @@ int TrafficLightEngine::InitialiseObjects(void)
 
 void TrafficLightEngine::SpawnSouthVehicles(int i)
 {
-	StoreObjectInArray(i, new VehicleObject(this, 460, 970));
+	StoreObjectInArray(i, new VehicleObjectSouth(this, 460, 970));
 }

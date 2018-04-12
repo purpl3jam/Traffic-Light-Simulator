@@ -62,7 +62,10 @@ public:
 		else if ( ( m_iCurrentScreenY + m_iStartDrawPosY + m_iDrawHeight) >= m_pEngine->GetScreenHeight() )
 			m_iCurrentScreenY = m_pEngine->GetScreenHeight() - m_iStartDrawPosY - m_iDrawHeight;
 	}
-
+	/*int getXPos;
+	int getYPos;
+	bool getGreen();
+	bool green = false;*/
 
 private:
 
