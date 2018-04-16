@@ -64,8 +64,8 @@ public:
 	}
 	/*int getXPos;
 	int getYPos;
-	bool getGreen();
-	bool green = false;*/
+	bool getGreen();*/
+	bool green;
 
 private:
 

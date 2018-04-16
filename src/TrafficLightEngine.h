@@ -10,6 +10,11 @@ public:
 	void SetupBackgroundBuffer();
 	int InitialiseObjects();
 	void SpawnSouthVehicles(int i);
+	void SpawnNorthVehicles(int i);
+	void SpawnSouthWestVehicles(int i);
+	void SpawnNorthWestVehicles(int i);
+	void SpawnSouthEastVehicles(int i);
+	void SpawnNorthEastVehicles(int i);
 
 	int quantity;
 	int nQuantity;
@@ -24,8 +29,7 @@ public:
 	int blockY;
 
 	// Traffic light variables
-	bool TLSS = false;
-	bool TLNS;
+	bool verticle;
 
 private:
 	//TrafficLightEngine m_oTiles;

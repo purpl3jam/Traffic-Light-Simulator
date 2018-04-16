@@ -1,16 +1,15 @@
 #include "header.h"
 #include "templates.h"
 
-#include "VehicleObjectSouth.h"
+#include "VehicleObjectSouthWest.h"
 #include "TrafficLightSS.h"
 
-#include <stdexcept>
 #include <iostream>
 
 using namespace std;
 
 
-VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, int startY)
+VehicleObjectSouthWest::VehicleObjectSouthWest(TrafficLightEngine* pEngine, int startX, int startY)
 	: DisplayableObject(pEngine)
 	, p_mainEngine(pEngine)
 {
@@ -29,12 +28,12 @@ VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, 
 	SetVisible(true);
 }
 
-VehicleObjectSouth::~VehicleObjectSouth(void)
+VehicleObjectSouthWest::~VehicleObjectSouthWest(void)
 {
 
 }
 
-void VehicleObjectSouth::Draw(void)
+void VehicleObjectSouthWest::Draw(void)
 {
 	GetEngine()->DrawScreenOval(
 		m_iCurrentScreenX, m_iCurrentScreenY,
@@ -47,15 +46,14 @@ void VehicleObjectSouth::Draw(void)
 	StoreLastScreenPositionForUndraw();
 }
 
-void VehicleObjectSouth::DoUpdate(int iCurrentTime)
+void VehicleObjectSouthWest::DoUpdate(int iCurrentTime)
 {
-
 	/********** EXTRA STUFF FOR COLLISIONS **********/
 
 	// Iterate through the objects
 	// We are looking for one which is too close to us
 	DisplayableObject* pObject;
-	for (int iObjectId = 8; (pObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
+	for (int iObjectId = 0; (pObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
 		iObjectId++)
 	{
 		if (pObject == this) // This is us, skip it
@@ -94,9 +92,9 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 				m_oMover.Calculate(iCurrentTime);
 				//m_iCurrentScreenX = m_oMover.GetX();
 				//m_iCurrentScreenY = m_oMover.GetY();
-				
 
-			// Ensure that the object gets redrawn on the display, if something changed
+
+				// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
 				return;
 			}
@@ -104,24 +102,25 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 	}
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
 
-
 	// Lane directions
-	if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 761) {
-		m_iCurrentScreenY -= 2;
-	}
-	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
-		m_iCurrentScreenX -= 2;
-	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 760 && m_iCurrentScreenY > 261) {
-		m_iCurrentScreenY -= 2;
-	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
+	if (m_iCurrentScreenX < 459 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 740 && m_iCurrentScreenY == 710) {
 		m_iCurrentScreenX += 2;
+		side = true;
+	}
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 450 && m_iCurrentScreenY < 710 && m_iCurrentScreenY > 261) {
+		m_iCurrentScreenY -= 2;
+		side = false;
+	}
+	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY == 710) {
+		m_iCurrentScreenX += 2;
+	}
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 710) {
+		m_iCurrentScreenY += 2;
 	}
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY > 260) {
 		m_iCurrentScreenX -= 2;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 260 && m_iCurrentScreenY > 0) {
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX >= 450 && m_iCurrentScreenY < 260 && m_iCurrentScreenY > 0) {
 		m_iCurrentScreenY -= 2;
 	}
 	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 240 && m_iCurrentScreenY > 200) {
@@ -129,23 +128,31 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 	}
 	// Determine random direction
 	else {
+		
 		direction = rand() % 100 + 1;
-		if (direction < 40) {
+		if (direction < 25) {
 			m_iCurrentScreenY -= 1;
 		}
-		else if (direction >= 40 && direction < 80) {
+		else if (direction >= 25 && direction < 50) {
 			m_iCurrentScreenY += 1;
 		}
-		else if (direction >= 80 && direction < 90) {
+		else if (direction >= 50 && direction < 75) {
 			m_iCurrentScreenX -= 1;
 		}
-		else if (direction >= 90) {
-			m_iCurrentScreenX += 80;
-			m_iCurrentScreenY -= 50;
+		else if (direction >= 75) {
+			cout << side;
+			if (side == false) {
+				m_iCurrentScreenX += 80;
+				m_iCurrentScreenY -= 50;
+			}
+			else {
+				m_iCurrentScreenX += 60;
+				m_iCurrentScreenY += 80;
+			}
 		}
 	}
-		
-	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {  
+
+	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 970 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {
 		m_iCurrentScreenY = YStart;
 		m_iCurrentScreenX = XStart;
 	}

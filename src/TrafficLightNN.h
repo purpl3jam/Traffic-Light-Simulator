@@ -7,5 +7,8 @@ public:
 	TrafficLightNN(BaseEngine *pEngine);
 	~TrafficLightNN(void);
 	void Draw();
+	void DoUpdate(int iCurrentTime);
+
+	int time;
 };
 

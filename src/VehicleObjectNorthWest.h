@@ -3,26 +3,23 @@
 #include "TrafficLightEngine.h"
 #include "MovementPosition.h"
 
-//class TrafficLightEngine;
-
-class VehicleObjectSouth :
+class VehicleObjectNorthWest :
 	public DisplayableObject
 {
 public:
-	VehicleObjectSouth(TrafficLightEngine *pEngine, int startX, int startY);
-	~VehicleObjectSouth(void);
+	VehicleObjectNorthWest(TrafficLightEngine *pEngine, int startX, int startY);
+	~VehicleObjectNorthWest(void);
 	void Draw();
 	void DoUpdate(int iCurrentTime);
 
 	int XStart;
 	int YStart;
 	int direction;
-
-	//TrafficLightSS* TLSS;
+	bool side = true;
 
 private:
 
-	TrafficLightEngine* p_mainEngine;
+	TrafficLightEngine * p_mainEngine;
 	MovementPosition m_oMover;
 
 	int m_iMapX;

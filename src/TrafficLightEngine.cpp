@@ -24,6 +24,9 @@
 #include "TrafficLightNE.h"
 
 #include "VehicleObjectSouth.h"
+#include "VehicleObjectNorth.h"
+#include "VehicleObjectSouthWest.h"
+#include "VehicleObjectNorthWest.h"
 
 #include <iostream>
 #include <string>
@@ -36,7 +39,7 @@ TrafficLightEngine::TrafficLightEngine()
 { 
 
 	// Number of vehicles
-	quantity = 1;
+	quantity = 3;
 }
 
 
@@ -86,7 +89,11 @@ int TrafficLightEngine::InitialiseObjects(void)
 	StoreObjectInArray(5, new BlockObject6(this));
 	StoreObjectInArray(6, new BlockObject7(this));
 	StoreObjectInArray(7, new BlockObject8(this));
-	StoreObjectInArray(8, new TrafficLightSS(this));
+
+
+
+
+	StoreObjectInArray(8, new TrafficLightSS(this, true));
 	StoreObjectInArray(9, new TrafficLightNS(this));
 	StoreObjectInArray(10, new TrafficLightNN(this));
 	StoreObjectInArray(11, new TrafficLightSN(this));
@@ -101,7 +108,23 @@ int TrafficLightEngine::InitialiseObjects(void)
 		SpawnSouthVehicles(i + BASE_OBJECTS);
 	}
 
+	//Generate North vehicles
+	nQuantity = 1;
+	for (int i = sQuantity; i < (sQuantity + nQuantity); i++) {
+		SpawnNorthVehicles(i + BASE_OBJECTS);
+	}
 
+	//Generate SouthWest vehicles
+	sWQuantity = 1;
+	for (int i = (sQuantity + nQuantity); i < (sQuantity + nQuantity + sWQuantity); i++) {
+		SpawnSouthWestVehicles(i + BASE_OBJECTS);
+	}
+
+	/*//Generate SouthWest vehicles
+	nWQuantity = 1;
+	for (int i = (sQuantity + nQuantity + sWQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity); i++) {
+		SpawnNorthWestVehicles(i + BASE_OBJECTS);
+	}*/
 
 	return 0;
 }
@@ -109,4 +132,29 @@ int TrafficLightEngine::InitialiseObjects(void)
 void TrafficLightEngine::SpawnSouthVehicles(int i)
 {
 	StoreObjectInArray(i, new VehicleObjectSouth(this, 460, 970));
+}
+
+void TrafficLightEngine::SpawnNorthVehicles(int i)
+{
+	StoreObjectInArray(i, new VehicleObjectNorth(this, 510, 0));
+}
+
+void TrafficLightEngine::SpawnSouthWestVehicles(int i)
+{
+	StoreObjectInArray(i, new VehicleObjectSouthWest(this, 0, 710));
+}
+
+void TrafficLightEngine::SpawnNorthWestVehicles(int i)
+{
+	StoreObjectInArray(i, new VehicleObjectNorthWest(this, 0, 210));
+}
+
+void TrafficLightEngine::SpawnSouthEastVehicles(int i)
+{
+	//StoreObjectInArray(i, new VehicleObjectSouth(this, 460, 970));
+}
+
+void TrafficLightEngine::SpawnNorthEastVehicles(int i)
+{
+	//StoreObjectInArray(i, new VehicleObjectSouth(this, 460, 970));
 }

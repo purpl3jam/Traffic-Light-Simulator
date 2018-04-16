@@ -1,7 +1,7 @@
 #include "header.h"
 #include "templates.h"
 
-#include "VehicleObjectSouth.h"
+#include "VehicleObjectNorthWest.h"
 #include "TrafficLightSS.h"
 
 #include <stdexcept>
@@ -10,7 +10,7 @@
 using namespace std;
 
 
-VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, int startY)
+VehicleObjectNorthWest::VehicleObjectNorthWest(TrafficLightEngine* pEngine, int startX, int startY)
 	: DisplayableObject(pEngine)
 	, p_mainEngine(pEngine)
 {
@@ -29,12 +29,12 @@ VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, 
 	SetVisible(true);
 }
 
-VehicleObjectSouth::~VehicleObjectSouth(void)
+VehicleObjectNorthWest::~VehicleObjectNorthWest(void)
 {
 
 }
 
-void VehicleObjectSouth::Draw(void)
+void VehicleObjectNorthWest::Draw(void)
 {
 	GetEngine()->DrawScreenOval(
 		m_iCurrentScreenX, m_iCurrentScreenY,
@@ -47,8 +47,9 @@ void VehicleObjectSouth::Draw(void)
 	StoreLastScreenPositionForUndraw();
 }
 
-void VehicleObjectSouth::DoUpdate(int iCurrentTime)
+void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 {
+
 
 	/********** EXTRA STUFF FOR COLLISIONS **********/
 
@@ -94,9 +95,9 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 				m_oMover.Calculate(iCurrentTime);
 				//m_iCurrentScreenX = m_oMover.GetX();
 				//m_iCurrentScreenY = m_oMover.GetY();
-				
 
-			// Ensure that the object gets redrawn on the display, if something changed
+
+				// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
 				return;
 			}
@@ -144,8 +145,8 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 			m_iCurrentScreenY -= 50;
 		}
 	}
-		
-	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {  
+
+	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {
 		m_iCurrentScreenY = YStart;
 		m_iCurrentScreenX = XStart;
 	}
