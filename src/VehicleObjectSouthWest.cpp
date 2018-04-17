@@ -26,6 +26,8 @@ VehicleObjectSouthWest::VehicleObjectSouthWest(TrafficLightEngine* pEngine, int 
 	m_iDrawHeight = 30;
 	// And make it visible
 	SetVisible(true);
+
+	green = true;
 }
 
 VehicleObjectSouthWest::~VehicleObjectSouthWest(void)
@@ -114,7 +116,7 @@ void VehicleObjectSouthWest::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY == 710) {
 		m_iCurrentScreenX += 2;
 	}
-	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 710) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 740) {
 		m_iCurrentScreenY += 2;
 	}
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY > 260) {
@@ -140,7 +142,7 @@ void VehicleObjectSouthWest::DoUpdate(int iCurrentTime)
 			m_iCurrentScreenX -= 1;
 		}
 		else if (direction >= 75) {
-			cout << side;
+			//cout << side;
 			if (side == false) {
 				m_iCurrentScreenX += 80;
 				m_iCurrentScreenY -= 50;

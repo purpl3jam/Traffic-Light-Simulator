@@ -27,6 +27,8 @@
 #include "VehicleObjectNorth.h"
 #include "VehicleObjectSouthWest.h"
 #include "VehicleObjectNorthWest.h"
+#include "VehicleObjectSouthEast.h"
+#include "VehicleObjectNorthEast.h"
 
 #include <iostream>
 #include <string>
@@ -39,12 +41,13 @@ TrafficLightEngine::TrafficLightEngine()
 { 
 
 	// Number of vehicles
-	quantity = 3;
+	quantity = 6;
 }
 
 
 TrafficLightEngine::~TrafficLightEngine()
 {
+
 }
 
 void TrafficLightEngine::SetupBackgroundBuffer()
@@ -92,8 +95,8 @@ int TrafficLightEngine::InitialiseObjects(void)
 
 
 
-
-	StoreObjectInArray(8, new TrafficLightSS(this, true));
+	// Generate traffic lights
+	StoreObjectInArray(8, new TrafficLightSS(this));
 	StoreObjectInArray(9, new TrafficLightNS(this));
 	StoreObjectInArray(10, new TrafficLightNN(this));
 	StoreObjectInArray(11, new TrafficLightSN(this));
@@ -120,11 +123,23 @@ int TrafficLightEngine::InitialiseObjects(void)
 		SpawnSouthWestVehicles(i + BASE_OBJECTS);
 	}
 
-	/*//Generate SouthWest vehicles
+	//Generate NorthWest vehicles
 	nWQuantity = 1;
 	for (int i = (sQuantity + nQuantity + sWQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity); i++) {
 		SpawnNorthWestVehicles(i + BASE_OBJECTS);
-	}*/
+	}
+
+	//Generate SouthEast vehicles
+	sEQuantity = 1;
+	for (int i = (sQuantity + nQuantity + sWQuantity + nWQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity); i++) {
+		SpawnSouthEastVehicles(i + BASE_OBJECTS);
+	}
+
+	//Generate NorthEast vehicles
+	nEQuantity = 1;
+	for (int i = (sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity + nEQuantity); i++) {
+		SpawnNorthEastVehicles(i + BASE_OBJECTS);
+	}
 
 	return 0;
 }
@@ -151,10 +166,10 @@ void TrafficLightEngine::SpawnNorthWestVehicles(int i)
 
 void TrafficLightEngine::SpawnSouthEastVehicles(int i)
 {
-	//StoreObjectInArray(i, new VehicleObjectSouth(this, 460, 970));
+	StoreObjectInArray(i, new VehicleObjectSouthEast(this, 970, 760));
 }
 
 void TrafficLightEngine::SpawnNorthEastVehicles(int i)
 {
-	//StoreObjectInArray(i, new VehicleObjectSouth(this, 460, 970));
+	StoreObjectInArray(i, new VehicleObjectNorthEast(this, 970, 260));
 }

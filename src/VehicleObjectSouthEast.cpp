@@ -1,16 +1,15 @@
 #include "header.h"
 #include "templates.h"
 
-#include "VehicleObjectNorthWest.h"
+#include "VehicleObjectSouthEast.h"
 #include "TrafficLightSS.h"
 
-#include <stdexcept>
 #include <iostream>
 
 using namespace std;
 
 
-VehicleObjectNorthWest::VehicleObjectNorthWest(TrafficLightEngine* pEngine, int startX, int startY)
+VehicleObjectSouthEast::VehicleObjectSouthEast(TrafficLightEngine* pEngine, int startX, int startY)
 	: DisplayableObject(pEngine)
 	, p_mainEngine(pEngine)
 {
@@ -31,12 +30,12 @@ VehicleObjectNorthWest::VehicleObjectNorthWest(TrafficLightEngine* pEngine, int 
 	green = true;
 }
 
-VehicleObjectNorthWest::~VehicleObjectNorthWest(void)
+VehicleObjectSouthEast::~VehicleObjectSouthEast(void)
 {
 
 }
 
-void VehicleObjectNorthWest::Draw(void)
+void VehicleObjectSouthEast::Draw(void)
 {
 	GetEngine()->DrawScreenOval(
 		m_iCurrentScreenX, m_iCurrentScreenY,
@@ -49,16 +48,14 @@ void VehicleObjectNorthWest::Draw(void)
 	StoreLastScreenPositionForUndraw();
 }
 
-void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
+void VehicleObjectSouthEast::DoUpdate(int iCurrentTime)
 {
-
-
 	/********** EXTRA STUFF FOR COLLISIONS **********/
 
 	// Iterate through the objects
 	// We are looking for one which is too close to us
 	DisplayableObject* pObject;
-	for (int iObjectId = 8; (pObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
+	for (int iObjectId = 0; (pObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
 		iObjectId++)
 	{
 		if (pObject == this) // This is us, skip it
@@ -107,33 +104,33 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 	}
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
 
-
 	// Lane directions
-	if (m_iCurrentScreenX < 459 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
-		m_iCurrentScreenX += 2;
+	if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX >= 511 && m_iCurrentScreenY < 800 && m_iCurrentScreenY == 760) {
+		m_iCurrentScreenX -= 2;
 		side = true;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 210 && m_iCurrentScreenY > 0) {
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 450 && m_iCurrentScreenY < 710 && m_iCurrentScreenY > 261) {
 		m_iCurrentScreenY -= 2;
-	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
-		m_iCurrentScreenX += 2;
-	}
-	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX >= 510 && m_iCurrentScreenY < 709 && m_iCurrentScreenY > 240) {
-		m_iCurrentScreenY += 2;
 		side = false;
 	}
-	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
+	else if (m_iCurrentScreenX < 510 && m_iCurrentScreenX > 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY == 760) {
 		m_iCurrentScreenX -= 2;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX >= 450 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 710) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 760) {
 		m_iCurrentScreenY += 2;
 	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
+	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY > 260) {
+		m_iCurrentScreenX -= 2;
+	}
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX >= 450 && m_iCurrentScreenY < 260 && m_iCurrentScreenY > 0) {
+		m_iCurrentScreenY -= 2;
+	}
+	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 240 && m_iCurrentScreenY > 200) {
 		m_iCurrentScreenX += 2;
 	}
 	// Determine random direction
 	else {
+
 		direction = rand() % 100 + 1;
 		if (direction < 25) {
 			m_iCurrentScreenY -= 1;
@@ -147,17 +144,17 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 		else if (direction >= 75) {
 			//cout << side;
 			if (side == false) {
-				m_iCurrentScreenX -= 80;
-				m_iCurrentScreenY += 30;
+				m_iCurrentScreenX += 80;
+				m_iCurrentScreenY -= 50;
 			}
 			else {
-				m_iCurrentScreenX += 60;
-				m_iCurrentScreenY += 80;
+				m_iCurrentScreenX -= 50;
+				m_iCurrentScreenY -= 60;
 			}
 		}
 	}
 
-	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {
+	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 970 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {
 		m_iCurrentScreenY = YStart;
 		m_iCurrentScreenX = XStart;
 	}

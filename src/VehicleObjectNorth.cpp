@@ -24,6 +24,8 @@ VehicleObjectNorth::VehicleObjectNorth(TrafficLightEngine* pEngine, int startX, 
 	m_iDrawHeight = 30;
 	// And make it visible
 	SetVisible(true);
+
+	green = true;
 }
 
 VehicleObjectNorth::~VehicleObjectNorth(void)
@@ -112,21 +114,21 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 550 && m_iCurrentScreenY < 240 && m_iCurrentScreenY > 200) {
 		m_iCurrentScreenX += 2;
 	}
-	else if (m_iCurrentScreenX < 740 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 739 && m_iCurrentScreenY > 240) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 709 && m_iCurrentScreenY > 240) {
 		m_iCurrentScreenY += 2;
 	}
 	else if (m_iCurrentScreenX < 450 && m_iCurrentScreenX > 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY > 260) {
 		m_iCurrentScreenX -= 2;
 	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 550 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
-		m_iCurrentScreenX += 2;
-	}
-	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 740) {
-		m_iCurrentScreenY += 2;
-	}
-	else if (m_iCurrentScreenX < 450 && m_iCurrentScreenX > 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
+	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
 		m_iCurrentScreenX -= 2;
 	}
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX >= 450 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 710) {
+		m_iCurrentScreenY += 2;
+	}
+	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
+		m_iCurrentScreenX += 2;
+	} 
 	// Determine random direction
 	else {
 		direction = rand() % 100 + 1;

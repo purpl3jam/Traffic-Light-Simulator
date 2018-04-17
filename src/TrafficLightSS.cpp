@@ -8,7 +8,7 @@
 using namespace std;
 
 
-TrafficLightSS::TrafficLightSS(BaseEngine* pEngine, bool light)
+TrafficLightSS::TrafficLightSS(BaseEngine* pEngine)
 	: DisplayableObject(pEngine)
 {
 
