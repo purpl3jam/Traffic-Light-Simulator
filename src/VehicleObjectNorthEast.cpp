@@ -1,7 +1,7 @@
 #include "header.h"
 #include "templates.h"
 
-#include "VehicleObjectNorthWest.h"
+#include "VehicleObjectNorthEast.h"
 #include "TrafficLightSS.h"
 
 #include <stdexcept>
@@ -10,7 +10,7 @@
 using namespace std;
 
 
-VehicleObjectNorthWest::VehicleObjectNorthWest(TrafficLightEngine* pEngine, int startX, int startY)
+VehicleObjectNorthEast::VehicleObjectNorthEast(TrafficLightEngine* pEngine, int startX, int startY)
 	: DisplayableObject(pEngine)
 	, p_mainEngine(pEngine)
 {
@@ -31,12 +31,12 @@ VehicleObjectNorthWest::VehicleObjectNorthWest(TrafficLightEngine* pEngine, int 
 	green = true;
 }
 
-VehicleObjectNorthWest::~VehicleObjectNorthWest(void)
+VehicleObjectNorthEast::~VehicleObjectNorthEast(void)
 {
 
 }
 
-void VehicleObjectNorthWest::Draw(void)
+void VehicleObjectNorthEast::Draw(void)
 {
 	GetEngine()->DrawScreenOval(
 		m_iCurrentScreenX, m_iCurrentScreenY,
@@ -49,7 +49,7 @@ void VehicleObjectNorthWest::Draw(void)
 	StoreLastScreenPositionForUndraw();
 }
 
-void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
+void VehicleObjectNorthEast::DoUpdate(int iCurrentTime)
 {
 
 
@@ -109,19 +109,19 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 
 
 	// Lane directions
-	if (m_iCurrentScreenX < 459 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
-		m_iCurrentScreenX += 2;
+	if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX >= 511 && m_iCurrentScreenY < 300 && m_iCurrentScreenY == 260) {
+		m_iCurrentScreenX -= 2;
 		side = true;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 210 && m_iCurrentScreenY > 0) {
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 450 && m_iCurrentScreenY < 260 && m_iCurrentScreenY > 0) {
 		m_iCurrentScreenY -= 2;
-	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
-		m_iCurrentScreenX += 2;
-	}
-	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX >= 510 && m_iCurrentScreenY < 709 && m_iCurrentScreenY > 240) {
-		m_iCurrentScreenY += 2;
 		side = false;
+	}
+	else if (m_iCurrentScreenX < 510 && m_iCurrentScreenX > 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY == 260) {
+		m_iCurrentScreenX -= 2;
+	}
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 710 && m_iCurrentScreenY > 260) {
+		m_iCurrentScreenY += 2;
 	}
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
 		m_iCurrentScreenX -= 2;
@@ -151,8 +151,8 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 				m_iCurrentScreenY += 30;
 			}
 			else {
-				m_iCurrentScreenX += 60;
-				m_iCurrentScreenY += 80;
+				m_iCurrentScreenX -= 50;
+				m_iCurrentScreenY -= 60;
 			}
 		}
 	}

@@ -4,7 +4,7 @@ class TrafficLightSS :
 	public DisplayableObject
 {
 public:
-	TrafficLightSS(BaseEngine *pEngine, bool light);
+	TrafficLightSS(BaseEngine *pEngine);
 	~TrafficLightSS(void);
 	void Draw();
 	void DoUpdate(int iCurrentTime);

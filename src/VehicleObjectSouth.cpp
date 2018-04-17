@@ -27,6 +27,7 @@ VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, 
 	m_iDrawHeight = 30;
 	// And make it visible
 	SetVisible(true);
+	green = true;
 }
 
 VehicleObjectSouth::~VehicleObjectSouth(void)
