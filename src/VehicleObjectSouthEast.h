@@ -16,6 +16,7 @@ public:
 	int YStart;
 	int direction;
 	bool side = true;
+	//int individualTime;
 
 private:
 

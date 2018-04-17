@@ -15,6 +15,8 @@ public:
 	void SpawnNorthWestVehicles(int i);
 	void SpawnSouthEastVehicles(int i);
 	void SpawnNorthEastVehicles(int i);
+	void DrawIndividualWaitTime(int time, int x, int y);
+	void DrawStrings(/*int time,*/ int x, int y);
 
 	int quantity;
 	int nQuantity;

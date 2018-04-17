@@ -5,6 +5,7 @@
 #include "TrafficLightSS.h"
 
 #include <stdexcept>
+#include <sstream>
 
 
 VehicleObjectNorth::VehicleObjectNorth(TrafficLightEngine* pEngine, int startX, int startY)
@@ -26,6 +27,7 @@ VehicleObjectNorth::VehicleObjectNorth(TrafficLightEngine* pEngine, int startX, 
 	SetVisible(true);
 
 	green = true;
+	individualTime = 0;
 }
 
 VehicleObjectNorth::~VehicleObjectNorth(void)
@@ -40,6 +42,12 @@ void VehicleObjectNorth::Draw(void)
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xe87410);
+
+	// Display individual wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
+	std::string s = std::to_string(individualTime);
+	char const* pchar = s.c_str();
+	p_mainEngine->DrawScreenString(550, 0, pchar, 0xaf0e0e, NULL);
+
 	// This will store the position at which the object was drawn
 	// so that the background can be drawn over the top.
 	// This will then remove the object from the screen.
@@ -94,6 +102,8 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 				//m_iCurrentScreenX = m_oMover.GetX();
 				//m_iCurrentScreenY = m_oMover.GetY();
 
+				// Increase individual wait time
+				individualTime++;
 
 				// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
