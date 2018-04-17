@@ -1,11 +1,14 @@
 #include "header.h"
 #include "templates.h"
 
+#include "BaseEngine.h"
+#include "DisplayableObject.h"
 #include "VehicleObjectSouth.h"
 #include "TrafficLightSS.h"
 
 #include <stdexcept>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 
@@ -28,6 +31,8 @@ VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, 
 	// And make it visible
 	SetVisible(true);
 	green = true;
+	individualTime = 0;
+	totalTime = 0;
 }
 
 VehicleObjectSouth::~VehicleObjectSouth(void)
@@ -42,14 +47,29 @@ void VehicleObjectSouth::Draw(void)
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xe87410);
+
+	// Display individual wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
+	std::string s = std::to_string(individualTime);
+	char const* pchar = s.c_str();
+	p_mainEngine->DrawScreenString(350, 970, pchar, 0xaf0e0e, NULL);
+
+	// Display total wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
+	std::string sT = std::to_string(individualTime);
+	char const* tchar = sT.c_str();
+	p_mainEngine->DrawScreenString(100, 30, tchar, 0x22ad0f, NULL);
+
 	// This will store the position at which the object was drawn
 	// so that the background can be drawn over the top.
 	// This will then remove the object from the screen.
-	StoreLastScreenPositionForUndraw();
+	StoreLastScreenPositionForUndraw();	// GetEngine()->DrawScreenRectangle(150, 900, 250, 850, 0x065be2);
+
+
 }
 
 void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 {
+
+
 
 	/********** EXTRA STUFF FOR COLLISIONS **********/
 
@@ -96,6 +116,19 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 				//m_iCurrentScreenX = m_oMover.GetX();
 				//m_iCurrentScreenY = m_oMover.GetY();
 				
+				// Increase individual wait time
+				individualTime++;
+
+				// Increase total wait time
+				DisplayableObject* tObject;
+				for (int iObjectId = 0; (tObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
+					iObjectId++)
+				{
+					if (tObject == this) // This is us, skip it
+						continue;
+
+					totalTime = totalTime + tObject->individualTime;
+				}
 
 			// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
@@ -145,15 +178,20 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 			m_iCurrentScreenY -= 50;
 		}
 	}
-		
-	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {  
+
+	/*if (m_iCurrentScreenX <= -300) {
+		m_iCurrentScreenX += 20;
+	}*/
+	if (m_iCurrentScreenX <= -100 && m_iCurrentScreenX >= -300) {
+		m_iCurrentScreenX = 460;
+		//m_iCurrentScreenY = 970;
+	}
+	else if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {  
 		m_iCurrentScreenY = YStart;
 		m_iCurrentScreenX = XStart;
 	}
 
-
-
-
 	// Ensure that the object gets redrawn on the display, if something changed
 	RedrawObjects();
 }
+

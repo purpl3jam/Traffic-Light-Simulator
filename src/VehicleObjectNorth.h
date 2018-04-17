@@ -15,6 +15,7 @@ public:
 	int XStart;
 	int YStart;
 	int direction;
+	//int individualTime;
 
 private:
 

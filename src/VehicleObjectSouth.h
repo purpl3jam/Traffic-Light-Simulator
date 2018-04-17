@@ -17,8 +17,8 @@ public:
 	int XStart;
 	int YStart;
 	int direction;
-
-	//TrafficLightSS* TLSS;
+	//int individualTime;
+	int totalTime;
 
 private:
 

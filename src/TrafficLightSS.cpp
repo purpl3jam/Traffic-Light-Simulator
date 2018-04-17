@@ -75,7 +75,7 @@ void TrafficLightSS::DoUpdate(int iCurrentTime) {
 
 	// Determine green time
 	int modTime = time % 400;
-	cout << modTime;
+	//cout << modTime;
 	if (modTime <= 200) {
 		green = false;
 	}

@@ -66,6 +66,7 @@ public:
 	int getYPos;
 	bool getGreen();*/
 	bool green;
+	int individualTime;
 
 private:
 
