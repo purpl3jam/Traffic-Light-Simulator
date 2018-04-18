@@ -16,7 +16,7 @@ public:
 	void SpawnSouthEastVehicles(int i);
 	void SpawnNorthEastVehicles(int i);
 	void DrawIndividualWaitTime(int time, int x, int y);
-	void DrawStrings(/*int time,*/ int x, int y);
+	void DrawStringsOnTop();
 
 	int quantity;
 	int nQuantity;
@@ -29,11 +29,16 @@ public:
 	bool allVisible;
 	int blockI;
 	int blockY;
+	int baseObjects;
+	int timeOfDay;
+	int individualTime;
+	int totalTime;
 
 	// Traffic light variables
 	bool verticle;
 
 private:
 	//TrafficLightEngine m_oTiles;
+	//VehicleObjectSouth * sVObject;
 };
 

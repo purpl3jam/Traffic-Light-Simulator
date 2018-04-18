@@ -118,12 +118,26 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
 
 
+	// Determine offscreen movement
+	cout << m_iCurrentScreenX;
+	cout << "/";
+	if (m_iCurrentScreenX <= -300) {
+		m_iCurrentScreenX += 1;
+	}
+	else if (m_iCurrentScreenX <= -100 && m_iCurrentScreenX >= -300) {
+		m_iCurrentScreenX = 0;
+		m_iCurrentScreenY = 210;
+	}
+	else if (m_iCurrentScreenY <= 1 || m_iCurrentScreenY >= 970 || (m_iCurrentScreenX < 0 && m_iCurrentScreenX > -100) || m_iCurrentScreenX >= 1000) {
+		m_iCurrentScreenY = YStart;
+		m_iCurrentScreenX = XStart;
+	}
 	// Lane directions
-	if (m_iCurrentScreenX < 459 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
+	else if (m_iCurrentScreenX < 459 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
 		m_iCurrentScreenX += 2;
 		side = true;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 210 && m_iCurrentScreenY > 0) {
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 210 && m_iCurrentScreenY > 1) {
 		m_iCurrentScreenY -= 2;
 	}
 	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 240 && m_iCurrentScreenY == 210) {
@@ -136,23 +150,28 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
 		m_iCurrentScreenX -= 2;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX >= 450 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 710) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX >= 510 && m_iCurrentScreenY < 969 && m_iCurrentScreenY >= 710) {
 		m_iCurrentScreenY += 2;
 	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
+	else if (m_iCurrentScreenX <= 1000 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
 		m_iCurrentScreenX += 2;
 	}
 	// Determine random direction
 	else {
 		direction = rand() % 100 + 1;
 		if (direction < 25) {
-			m_iCurrentScreenY -= 1;
+			if (side == false) {
+				m_iCurrentScreenX -= 1;
+			}
+			else {
+				m_iCurrentScreenY -= 1;
+			}
 		}
 		else if (direction >= 25 && direction < 50) {
 			m_iCurrentScreenY += 1;
 		}
 		else if (direction >= 50 && direction < 75) {
-			m_iCurrentScreenX -= 1;
+			m_iCurrentScreenX += 1;
 		}
 		else if (direction >= 75) {
 			//cout << side;
@@ -161,15 +180,10 @@ void VehicleObjectNorthWest::DoUpdate(int iCurrentTime)
 				m_iCurrentScreenY += 30;
 			}
 			else {
-				m_iCurrentScreenX += 60;
+				m_iCurrentScreenX += 55;
 				m_iCurrentScreenY += 80;
 			}
 		}
-	}
-
-	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {
-		m_iCurrentScreenY = YStart;
-		m_iCurrentScreenX = XStart;
 	}
 
 

@@ -66,7 +66,13 @@ public:
 	int getYPos;
 	bool getGreen();*/
 	bool green;
-	int individualTime;
+	int individualTime = false;
+	bool sVehicleObject = false;
+	bool nVehicleObject = false;
+	bool sWVehicleObject = false;
+	bool nWVehicleObject = false;
+	bool sEVehicleObject = false;
+	bool nEVehicleObject = false;
 
 private:
 
