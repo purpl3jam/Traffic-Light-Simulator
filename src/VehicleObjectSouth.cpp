@@ -4,7 +4,7 @@
 #include "BaseEngine.h"
 #include "DisplayableObject.h"
 #include "VehicleObjectSouth.h"
-#include "TrafficLightSS.h"
+//#include "TrafficLightSS.h"
 
 #include <stdexcept>
 #include <iostream>
@@ -48,15 +48,7 @@ void VehicleObjectSouth::Draw(void)
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xe87410);
 
-	// Display individual wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
-	std::string s = std::to_string(individualTime);
-	char const* pchar = s.c_str();
-	p_mainEngine->DrawScreenString(350, 970, pchar, 0xaf0e0e, NULL);
 
-	// Display total wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
-	std::string sT = std::to_string(individualTime);
-	char const* tchar = sT.c_str();
-	p_mainEngine->DrawScreenString(100, 30, tchar, 0x22ad0f, NULL);
 
 	// This will store the position at which the object was drawn
 	// so that the background can be drawn over the top.
@@ -139,8 +131,28 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
 
 
+	//cout << m_iCurrentScreenX;
+	//cout << ":";
+	// Determine offscreen movement
+	if (m_iCurrentScreenX < -300 /*&& m_iCurrentScreenX >= 30000*/) {
+		m_iCurrentScreenX += 1;
+		//cout << 1;
+		//cout << "/";
+	}
+	else if (m_iCurrentScreenX <= -100 && m_iCurrentScreenX >= -300) {
+		m_iCurrentScreenX = 460;
+		m_iCurrentScreenY = 970;
+		//cout << 2;
+		//cout << "/";
+	}
+	else if (m_iCurrentScreenY <= 1 || m_iCurrentScreenY >= 1000 || (m_iCurrentScreenX < 0 && m_iCurrentScreenX > -100) || m_iCurrentScreenX >= 1000) {
+		m_iCurrentScreenY = YStart;
+		m_iCurrentScreenX = XStart;
+		//cout << 3;
+		//cout << "/";
+	}
 	// Lane directions
-	if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 761) {
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 761) {
 		m_iCurrentScreenY -= 2;
 	}
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
@@ -155,7 +167,7 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY > 260) {
 		m_iCurrentScreenX -= 2;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 260 && m_iCurrentScreenY > 0) {
+	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX == 460 && m_iCurrentScreenY < 260 && m_iCurrentScreenY > 1) {
 		m_iCurrentScreenY -= 2;
 	}
 	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 240 && m_iCurrentScreenY > 200) {
@@ -164,32 +176,23 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 	// Determine random direction
 	else {
 		direction = rand() % 100 + 1;
-		if (direction < 40) {
+		if (direction < 45) {
 			m_iCurrentScreenY -= 1;
 		}
-		else if (direction >= 40 && direction < 80) {
+		else if (direction >= 45 && direction < 90) {
 			m_iCurrentScreenY += 1;
 		}
-		else if (direction >= 80 && direction < 90) {
+		else if (direction >= 90 && direction < 95) {
 			m_iCurrentScreenX -= 1;
 		}
-		else if (direction >= 90) {
+		else if (direction >= 95) {
 			m_iCurrentScreenX += 80;
 			m_iCurrentScreenY -= 50;
 		}
 	}
 
-	/*if (m_iCurrentScreenX <= -300) {
-		m_iCurrentScreenX += 20;
-	}*/
-	if (m_iCurrentScreenX <= -100 && m_iCurrentScreenX >= -300) {
-		m_iCurrentScreenX = 460;
-		//m_iCurrentScreenY = 970;
-	}
-	else if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 1000 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {  
-		m_iCurrentScreenY = YStart;
-		m_iCurrentScreenX = XStart;
-	}
+
+
 
 	// Ensure that the object gets redrawn on the display, if something changed
 	RedrawObjects();

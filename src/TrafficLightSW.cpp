@@ -71,7 +71,7 @@ void TrafficLightSW::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
-	if (modTime >= 200) {
+	if (modTime >= 150) {
 		green = false;
 	}
 	else {

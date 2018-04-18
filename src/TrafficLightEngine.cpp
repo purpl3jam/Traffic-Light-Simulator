@@ -23,6 +23,7 @@
 #include "TrafficLightSE.h"
 #include "TrafficLightNE.h"
 
+
 #include "VehicleObjectSouth.h"
 #include "VehicleObjectNorth.h"
 #include "VehicleObjectSouthWest.h"
@@ -33,16 +34,36 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <stdexcept>
+
+using namespace std;
 
 #define BASE_OBJECTS 16
-#define TIME_OF_DAY "Morning"
+//#define TIME_OF_DAY "Morning"
 
 TrafficLightEngine::TrafficLightEngine()
+
+
 	: BaseEngine( BASE_OBJECTS )
 { 
 
 	// Number of vehicles
-	quantity = 100;
+	sQuantity = 40;
+	nQuantity = 040;
+	sWQuantity = 5;
+	nWQuantity = 5;
+	sEQuantity = 5;
+	nEQuantity = 5;
+	quantity = sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity + nEQuantity;
+	baseObjects = BASE_OBJECTS;
+
+	// Morning == 1
+	// Evening == 2
+	// Midday == 3
+	timeOfDay = 1;
+
+	individualTime = 0;
+	totalTime = 0;
 }
 
 
@@ -107,37 +128,32 @@ int TrafficLightEngine::InitialiseObjects(void)
 	StoreObjectInArray(15, new TrafficLightNE(this));
 
 	//Generate South vehicles
-	sQuantity = 40;
 	for (int i = 0; i < sQuantity; i++) {
 		SpawnSouthVehicles(i + BASE_OBJECTS);
 	}
 
 	//Generate North vehicles
-	nQuantity = 40;
 	for (int i = sQuantity; i < (sQuantity + nQuantity); i++) {
+		//cout << i;
 		SpawnNorthVehicles(i + BASE_OBJECTS);
 	}
 
 	//Generate SouthWest vehicles
-	sWQuantity = 5;
 	for (int i = (sQuantity + nQuantity); i < (sQuantity + nQuantity + sWQuantity); i++) {
 		SpawnSouthWestVehicles(i + BASE_OBJECTS);
 	}
 
 	//Generate NorthWest vehicles
-	nWQuantity = 5;
 	for (int i = (sQuantity + nQuantity + sWQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity); i++) {
 		SpawnNorthWestVehicles(i + BASE_OBJECTS);
 	}
 
 	//Generate SouthEast vehicles
-	sEQuantity = 5;
 	for (int i = (sQuantity + nQuantity + sWQuantity + nWQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity); i++) {
 		SpawnSouthEastVehicles(i + BASE_OBJECTS);
 	}
 
 	//Generate NorthEast vehicles
-	nEQuantity = 5;
 	for (int i = (sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity); i < (sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity + nEQuantity); i++) {
 		SpawnNorthEastVehicles(i + BASE_OBJECTS);
 	}
@@ -147,47 +163,104 @@ int TrafficLightEngine::InitialiseObjects(void)
 
 void TrafficLightEngine::SpawnSouthVehicles(int i)
 {
-	startPos = rand() % 30000 + 1;
+	if (timeOfDay == 1) {
+		startPos = rand() % 3000 + 301;
+	}
+	else if (timeOfDay == 2) {
+		startPos = rand() % 30000 + 301;
+	}
+	else if (timeOfDay == 3) {
+		startPos = rand() % 15000 + 301;
+	}
 	StoreObjectInArray(i, new VehicleObjectSouth(this, 0 - startPos, 970));
 }
 
 void TrafficLightEngine::SpawnNorthVehicles(int i)
 {
-	StoreObjectInArray(i, new VehicleObjectNorth(this, 510, 0));
+	if (timeOfDay == 1) {
+		startPos = rand() % 30000 + 1301;
+	}
+	else if (timeOfDay == 2) {
+		startPos = rand() % 3000 + 1301;
+	}
+	else if (startPos == 3) {
+		startPos = rand() % 15000 + 1301;
+	}
+	StoreObjectInArray(i, new VehicleObjectNorth(this, 0 + startPos, 0));
 }
 
 void TrafficLightEngine::SpawnSouthWestVehicles(int i)
 {
-	StoreObjectInArray(i, new VehicleObjectSouthWest(this, 0, 710));
+	if (timeOfDay == 1) {
+		startPos = rand() % 3000 + 301;
+	}
+	else if (timeOfDay == 2) {
+		startPos = rand() % 3000 + 301;
+	}
+	else if (startPos == 3) {
+		startPos = rand() % 10000 + 301;
+	}
+	StoreObjectInArray(i, new VehicleObjectSouthWest(this, 0 - startPos, 710));
 }
 
 void TrafficLightEngine::SpawnNorthWestVehicles(int i)
 {
-	StoreObjectInArray(i, new VehicleObjectNorthWest(this, 0, 210));
+	if (timeOfDay == 1) {
+		startPos = rand() % 3000 + 301;
+	}
+	else if (timeOfDay == 2) {
+		startPos = rand() % 3000 + 301;
+	}
+	else if (startPos == 3) {
+		startPos = rand() % 10000 + 301;
+	}
+	StoreObjectInArray(i, new VehicleObjectNorthWest(this, 0 - startPos, 210));
 }
 
 void TrafficLightEngine::SpawnSouthEastVehicles(int i)
 {
-	StoreObjectInArray(i, new VehicleObjectSouthEast(this, 970, 760));
+	if (timeOfDay == 1) {
+		startPos = rand() % 3000 + 1301;
+	}
+	else if (timeOfDay == 2) {
+		startPos = rand() % 3000 + 1301;
+	}
+	else if (startPos == 3) {
+		startPos = rand() % 10000 + 1301;
+	}
+	StoreObjectInArray(i, new VehicleObjectSouthEast(this, 0 + startPos, 760));
 }
 
 void TrafficLightEngine::SpawnNorthEastVehicles(int i)
 {
-	StoreObjectInArray(i, new VehicleObjectNorthEast(this, 970, 260));
+	if (timeOfDay == 1) {
+		startPos = rand() % 3000 + 1301;
+	}
+	else if (timeOfDay == 2) {
+		startPos = rand() % 3000 + 1301;
+	}
+	else if (startPos == 3) {
+		startPos = rand() % 10000 + 1301;
+	}
+	StoreObjectInArray(i, new VehicleObjectNorthEast(this, 0 + startPos, 260));
 }
 
-/*void TrafficLightEngine::DrawIndividualWaitTime(int time, int x, int y)
+void TrafficLightEngine::DrawStringsOnTop()
 {
-	CopyBackgroundPixels(350, 850, 50, 30);
-	std::string s = std::to_string(time);
-	char const* pchar = s.c_str();
-	DrawScreenString(350, 850, "test", 0xaf0e0e, NULL);
-}*/
+	DisplayableObject* vSObject;
+	for (int iObjectId = baseObjects; (vSObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
 
-//void TrafficLightEngine::DrawStrings(/*int time*/ int x, int y)
-//{
-	//CopyBackgroundPixels(0/*X*/, 0/*Y*/, GetScreenWidth(), 30/*Height*/);
-	//std::string s = std::to_string(time);
-	//char const* pchar = s.c_str();
-	//DrawScreenString(150, 850, "test", 0xaf0e0e, NULL);
-//}
+	}
+	// Display individual wait time	//p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
+	individualTime = 0;
+	std::string s = std::to_string(individualTime);
+	char const* pchar = s.c_str();
+	DrawScreenString(350, 970, pchar, 0xaf0e0e, NULL);
+
+	// Display total wait time	//p_mainEngine->CopyBackgroundPixels(100/*X*/, 30/*Y*/, 100, 30);
+	std::string sT = std::to_string(totalTime);
+	char const* tchar = sT.c_str();
+	DrawScreenString(100, 30, tchar, 0x22ad0f, NULL);
+}

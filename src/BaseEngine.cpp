@@ -462,6 +462,10 @@ void BaseEngine::CopyBackgroundPixels( int iX, int iY, int iWidth, int iHeight )
 
 	int iStart = iY * GetIntsPerScreenRow( m_pBackgroundSurface ) + iX;
 	int iIncrement = GetIntsPerScreenRow( m_pBackgroundSurface ) - iWidth;
+	
+	
+	
+	
 	unsigned int * puiSource = ((unsigned int *)m_pBackgroundSurface->pixels) + iStart;
 	unsigned int * puiDest = ((unsigned int *)m_pActualScreen->pixels) + iStart;
 	for ( int i = 0 ; i < iHeight ; i++ )

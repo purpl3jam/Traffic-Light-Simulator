@@ -6,7 +6,9 @@
 
 #include <stdexcept>
 #include <sstream>
+#include <iostream>
 
+using namespace std;
 
 VehicleObjectNorth::VehicleObjectNorth(TrafficLightEngine* pEngine, int startX, int startY)
 	: DisplayableObject(pEngine)
@@ -113,18 +115,27 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 	}
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
 
-	//if (/*(m_iCurrentScreenX = TLSS->getXPos) && (m_iCurrentScreenY = TLSS->getYPos) &&*/ (TLSS->green != true)) {
-	//m_iCurrentScreenX += 0;
-	//m_iCurrentScreenY += 0;
-	//}
+
+	// Determine offscreen movement
+	if (m_iCurrentScreenX >= 1300) {
+		m_iCurrentScreenX -= 1;
+	}
+	else if (m_iCurrentScreenX >= 1100 && m_iCurrentScreenX <= 1300) {
+		m_iCurrentScreenX = 510;
+		m_iCurrentScreenY = 1;
+	}
+	else if (m_iCurrentScreenY < 0 || m_iCurrentScreenY >= 969 || m_iCurrentScreenX < 0 || (m_iCurrentScreenX > 1000 && m_iCurrentScreenX < 1100)) {
+		m_iCurrentScreenY = YStart;
+		m_iCurrentScreenX = XStart;
+	}
 	// Lane directions
-	if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 239 && m_iCurrentScreenY >= 0) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 209 && m_iCurrentScreenY >= 0) {
 		m_iCurrentScreenY += 2;
 	}
 	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 550 && m_iCurrentScreenY < 240 && m_iCurrentScreenY > 200) {
 		m_iCurrentScreenX += 2;
 	}
-	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 709 && m_iCurrentScreenY > 240) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 709 && m_iCurrentScreenY > 210) {
 		m_iCurrentScreenY += 2;
 	}
 	else if (m_iCurrentScreenX < 450 && m_iCurrentScreenX > 0 && m_iCurrentScreenY < 300 && m_iCurrentScreenY > 260) {
@@ -133,33 +144,30 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenX < 460 && m_iCurrentScreenX >= 0 && m_iCurrentScreenY < 800 && m_iCurrentScreenY > 760) {
 		m_iCurrentScreenX -= 2;
 	}
-	else if (m_iCurrentScreenX < 490 && m_iCurrentScreenX >= 450 && m_iCurrentScreenY < 1000 && m_iCurrentScreenY > 710) {
+	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX >= 510 && m_iCurrentScreenY < 969 && m_iCurrentScreenY >= 710) {
 		m_iCurrentScreenY += 2;
 	}
-	else if (m_iCurrentScreenX < 1000 && m_iCurrentScreenX > 460 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
+	else if (m_iCurrentScreenX <= 1000 && m_iCurrentScreenX > 510 && m_iCurrentScreenY < 740 && m_iCurrentScreenY > 700) {
 		m_iCurrentScreenX += 2;
 	} 
 	// Determine random direction
 	else {
 		direction = rand() % 100 + 1;
-		if (direction < 40) {
+		//cout << direction;
+		//cout << "/";
+		/*if (direction < 45) {
 			m_iCurrentScreenY -= 1;
 		}
-		else if (direction >= 40 && direction < 80) {
+		else */if (direction < 80) {
 			m_iCurrentScreenY += 1;
 		}
 		else if (direction >= 80 && direction < 90) {
-			m_iCurrentScreenX -= 1;
+			m_iCurrentScreenX += 1;
 		}
 		else if (direction >= 90) {
 			m_iCurrentScreenX -= 80;
-			m_iCurrentScreenY += 30;
+			m_iCurrentScreenY += 60;
 		}
-	}
-
-	if (m_iCurrentScreenY < 0 || m_iCurrentScreenY > 970 || m_iCurrentScreenX < 0 || m_iCurrentScreenX >= 1000) {
-		m_iCurrentScreenY = YStart;
-		m_iCurrentScreenX = XStart;
 	}
 
 
