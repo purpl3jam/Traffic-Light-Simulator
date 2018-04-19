@@ -23,6 +23,7 @@ TrafficLightNW::TrafficLightNW(BaseEngine* pEngine)
 	m_iDrawHeight = 45;
 	// And make it visible
 	SetVisible(true);
+	tLNWObject = true;
 }
 
 TrafficLightNW::~TrafficLightNW(void)

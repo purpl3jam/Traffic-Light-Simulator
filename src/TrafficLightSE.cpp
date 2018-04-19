@@ -23,6 +23,7 @@ TrafficLightSE::TrafficLightSE(BaseEngine* pEngine)
 	m_iDrawHeight = 45;
 	// And make it visible
 	SetVisible(true);
+	tLSEObject = true;
 }
 
 TrafficLightSE::~TrafficLightSE(void)

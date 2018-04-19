@@ -65,7 +65,8 @@ public:
 	/*int getXPos;
 	int getYPos;
 	bool getGreen();*/
-	bool green;
+
+	// Vehicle variables
 	int individualTime = false;
 	bool sVehicleObject = false;
 	bool nVehicleObject = false;
@@ -73,6 +74,25 @@ public:
 	bool nWVehicleObject = false;
 	bool sEVehicleObject = false;
 	bool nEVehicleObject = false;
+
+	// Traffic light variables
+	bool green;
+	bool redSS;
+	bool redNS;
+	bool redSN;
+	bool redNN;
+	bool redSW;
+	bool redNW;
+	bool redSE;
+	bool redNE;
+	bool tLSSObject;
+	bool tLNSObject;
+	bool tLSNObject;
+	bool tLNNObject;
+	bool tLSWObject;
+	bool tLNWObject;
+	bool tLSEObject;
+	bool tLNEObject;
 
 private:
 

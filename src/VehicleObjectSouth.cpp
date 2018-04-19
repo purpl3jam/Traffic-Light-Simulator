@@ -112,21 +112,31 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 				// Increase individual wait time
 				individualTime++;
 
-				// Increase total wait time
-				/*DisplayableObject* tObject;
-				for (int iObjectId = 0; (tObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
-					iObjectId++)
-				{
-					if (tObject == this) // This is us, skip it
-						continue;
+				// Set South South red count
+				if (pObject->tLSSObject == true) {
+					//cout << 3;
+					redSS = true;
+				}
+				else {
+					redSS = false;
+				}
 
-					totalTime = totalTime + tObject->individualTime;
-				}*/
+				// Set North South red count
+				if (pObject->tLNSObject == true) {
+					//cout << 3;
+					redNS = true;
+				}
+				else {
+					redNS = false;
+				}
 
 			// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
 				return;
 			}
+			// Neutralise reds once collision lost
+			redSS = false;
+			redNS = false;
 		}
 	}
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
@@ -149,6 +159,7 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenY <= 1 || m_iCurrentScreenY >= 1000 || (m_iCurrentScreenX < 0 && m_iCurrentScreenX > -100) || m_iCurrentScreenX >= 1000) {
 		m_iCurrentScreenY = YStart;
 		m_iCurrentScreenX = XStart;
+		individualTime = 0;
 		//cout << 3;
 		//cout << "/";
 	}

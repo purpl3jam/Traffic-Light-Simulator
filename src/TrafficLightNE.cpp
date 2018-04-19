@@ -23,6 +23,7 @@ TrafficLightNE::TrafficLightNE(BaseEngine* pEngine)
 	m_iDrawHeight = 45;
 	// And make it visible
 	SetVisible(true);
+	tLNEObject = true;
 }
 
 TrafficLightNE::~TrafficLightNE(void)
