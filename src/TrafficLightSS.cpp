@@ -8,8 +8,9 @@
 using namespace std;
 
 
-TrafficLightSS::TrafficLightSS(BaseEngine* pEngine)
+TrafficLightSS::TrafficLightSS(TrafficLightEngine* pEngine)
 	: DisplayableObject(pEngine)
+	, p_mainEngine(pEngine)
 {
 
 	// Current and previous coordinates for the object - set them the same initially
@@ -77,10 +78,15 @@ void TrafficLightSS::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
-	if (modTime <= 150) {
+	cout << "_____";
+	cout << p_mainEngine->sProportion;
+	//cout << "-----";
+	if (modTime <= p_mainEngine->sProportion) {
+		//cout << 4;
 		green = false;
 	}
 	else {
+		//cout << 5;
 		green = true;
 	}
 

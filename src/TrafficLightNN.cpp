@@ -3,10 +3,13 @@
 
 #include "TrafficLightNN.h"
 
+#include <iostream>
 
+using namespace std;
 
-TrafficLightNN::TrafficLightNN(BaseEngine* pEngine)
+TrafficLightNN::TrafficLightNN(TrafficLightEngine* pEngine)
 	: DisplayableObject(pEngine)
+	, p_mainEngine(pEngine)
 {
 
 	// Current and previous coordinates for the object - set them the same initially
@@ -72,8 +75,10 @@ void TrafficLightNN::DoUpdate(int iCurrentTime) {
 
 	// Determine green time
 	int modTime = time % 400;
+	cout << "::";
+	cout << p_mainEngine->nProportion;
 	//cout << modTime;
-	if (modTime <= 150) {
+	if (modTime <= p_mainEngine->nProportion) {
 		green = false;
 	}
 	else {

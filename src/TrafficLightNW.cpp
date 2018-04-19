@@ -5,8 +5,9 @@
 
 
 
-TrafficLightNW::TrafficLightNW(BaseEngine* pEngine)
+TrafficLightNW::TrafficLightNW(TrafficLightEngine* pEngine)
 	: DisplayableObject(pEngine)
+	, p_mainEngine(pEngine)
 {
 
 	// Current and previous coordinates for the object - set them the same initially
@@ -72,7 +73,7 @@ void TrafficLightNW::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
-	if (modTime >= 150) {
+	if (modTime >= p_mainEngine->nProportion) {
 		green = false;
 	}
 	else {
