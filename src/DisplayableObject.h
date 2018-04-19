@@ -67,7 +67,7 @@ public:
 	bool getGreen();*/
 
 	// Vehicle variables
-	int individualTime = false;
+	int individualTime = 0;
 	bool sVehicleObject = false;
 	bool nVehicleObject = false;
 	bool sWVehicleObject = false;
@@ -93,6 +93,9 @@ public:
 	bool tLNWObject;
 	bool tLSEObject;
 	bool tLNEObject;
+
+	// Time variables
+	int time = 0;
 
 private:
 
