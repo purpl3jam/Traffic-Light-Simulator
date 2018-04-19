@@ -26,6 +26,8 @@ TrafficLightNS::TrafficLightNS(BaseEngine* pEngine)
 	// And make it visible
 	SetVisible(true);
 	green = false;
+	tLNSObject = true;
+	time = 0;
 }
 
 TrafficLightNS::~TrafficLightNS(void)

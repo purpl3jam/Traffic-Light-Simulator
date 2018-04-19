@@ -51,19 +51,21 @@ TrafficLightEngine::TrafficLightEngine()
 { 
 
 	// Number of vehicles
-	sQuantity = 40;
-	nQuantity = 40;
-	sWQuantity = 5;
-	nWQuantity = 5;
-	sEQuantity = 5;
-	nEQuantity = 5;
+	sQuantity = 30;
+	nQuantity = 30;
+	sWQuantity = 10;
+	nWQuantity = 10;
+	sEQuantity = 10;
+	nEQuantity = 10;
 	quantity = sQuantity + nQuantity + sWQuantity + nWQuantity + sEQuantity + nEQuantity;
 	baseObjects = BASE_OBJECTS;
 
 	// Morning == 1
 	// Evening == 2
 	// Midday == 3
-	timeOfDay = 2;
+	timeOfDay = 1;
+
+	mLAlgorithmOn = true;
 
 	totalTime = 0;
 }
@@ -117,8 +119,6 @@ int TrafficLightEngine::InitialiseObjects(void)
 	StoreObjectInArray(6, new BlockObject7(this));
 	StoreObjectInArray(7, new BlockObject8(this));
 
-
-
 	// Generate traffic lights
 	StoreObjectInArray(8, new TrafficLightSS(this));
 	StoreObjectInArray(9, new TrafficLightNS(this));
@@ -128,6 +128,8 @@ int TrafficLightEngine::InitialiseObjects(void)
 	StoreObjectInArray(13, new TrafficLightNW(this));
 	StoreObjectInArray(14, new TrafficLightSE(this));
 	StoreObjectInArray(15, new TrafficLightNE(this));
+	//MachineLearningAlgorithm();
+
 
 	//Generate South vehicles
 	for (int i = 0; i < sQuantity; i++) {
@@ -249,6 +251,10 @@ void TrafficLightEngine::SpawnNorthEastVehicles(int i)
 
 void TrafficLightEngine::DrawStringsOnTop()
 {
+
+	MachineLearningAlgorithm();
+
+
 	/********** Draw South times **********/
 	DrawScreenString(120, 970, "Avg South Wait:", 0x000000, NULL);
 
@@ -408,4 +414,175 @@ void TrafficLightEngine::DrawStringsOnTop()
 	seconds = time(NULL);
 	char* dt = ctime(&seconds);
 	DrawScreenString(700, 940, dt, 0x22ad0f, NULL);*/
+}
+
+void TrafficLightEngine::MachineLearningAlgorithm()
+{
+
+	
+	if (mLAlgorithmOn == true) {
+		RedCounting();
+	}
+	else {
+		/*StoreObjectInArray(8, new TrafficLightSS(this));
+		StoreObjectInArray(9, new TrafficLightNS(this));
+		StoreObjectInArray(10, new TrafficLightNN(this));
+		StoreObjectInArray(11, new TrafficLightSN(this));
+		StoreObjectInArray(12, new TrafficLightSW(this));
+		StoreObjectInArray(13, new TrafficLightNW(this));
+		StoreObjectInArray(14, new TrafficLightSE(this));
+		StoreObjectInArray(15, new TrafficLightNE(this));*/
+	}
+}
+
+void TrafficLightEngine::RedCounting() {
+	/********** South South red count **********/
+	sSRed = 0;
+	DisplayableObject* rSSObject;
+	for (int iObjectId = baseObjects; (rSSObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rSSObject->sVehicleObject == true) {
+			//cout << 1;
+			if (rSSObject->redSS == true) {
+				//cout << 2;
+				sSRed++;
+			}
+
+		}
+	}
+	//cout << sSRed;
+
+
+
+	/********** North South red count **********/
+	nSRed = 0;
+	DisplayableObject* rNSObject;
+	for (int iObjectId = baseObjects; (rNSObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rNSObject->sVehicleObject == true || rNSObject->sWVehicleObject == true || rNSObject->sEVehicleObject == true) {
+			//cout << 1;
+			if (rNSObject->redNS == true) {
+				//cout << 2;
+				nSRed++;
+			}
+
+		}
+	}
+	cout << nSRed;
+
+
+
+	/********** South North red count **********/
+	sNRed = 0;
+	DisplayableObject* rSNObject;
+	for (int iObjectId = baseObjects; (rSNObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rSNObject->nVehicleObject == true || rSNObject->nWVehicleObject == true || rSNObject->nEVehicleObject == true) {
+			//cout << 1;
+			if (rSNObject->redSN == true) {
+				//cout << 2;
+				sNRed++;
+			}
+
+		}
+	}
+	//cout << sNRed;
+
+
+
+	/********** North North red count **********/
+	nNRed = 0;
+	DisplayableObject* rNNObject;
+	for (int iObjectId = baseObjects; (rNNObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rNNObject->nVehicleObject == true) {
+			//cout << 1;
+			if (rNNObject->redNN == true) {
+				//cout << 2;
+				nNRed++;
+			}
+
+		}
+	}
+	//cout << nNRed;
+
+
+
+	/********** South West red count **********/
+	sWRed = 0;
+	DisplayableObject* rSWObject;
+	for (int iObjectId = baseObjects; (rSWObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rSWObject->sWVehicleObject == true) {
+			//cout << 1;
+			if (rSWObject->redSW == true) {
+				//cout << 2;
+				sWRed++;
+			}
+
+		}
+	}
+	//cout << sWRed;
+
+
+
+	/********** North West red count **********/
+	nWRed = 0;
+	DisplayableObject* rNWObject;
+	for (int iObjectId = baseObjects; (rNWObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rNWObject->nWVehicleObject == true) {
+			//cout << 1;
+			if (rNWObject->redNW == true) {
+				//cout << 2;
+				nWRed++;
+			}
+
+		}
+	}
+	//cout << nWRed;
+
+
+
+	/********** South East red count **********/
+	sERed = 0;
+	DisplayableObject* rSEObject;
+	for (int iObjectId = baseObjects; (rSEObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rSEObject->sEVehicleObject == true) {
+			//cout << 1;
+			if (rSEObject->redSE == true) {
+				//cout << 2;
+				sERed++;
+			}
+
+		}
+	}
+	//cout << sERed;
+
+
+
+	/********** North East red count **********/
+	nERed = 0;
+	DisplayableObject* rNEObject;
+	for (int iObjectId = baseObjects; (rNEObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (rNEObject->nEVehicleObject == true) {
+			//cout << 1;
+			if (rNEObject->redNE == true) {
+				//cout << 2;
+				nERed++;
+			}
+
+		}
+	}
+	//cout << nERed;
 }

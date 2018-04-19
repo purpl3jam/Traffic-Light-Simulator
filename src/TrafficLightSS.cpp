@@ -27,6 +27,7 @@ TrafficLightSS::TrafficLightSS(BaseEngine* pEngine)
 	// And make it visible
 	SetVisible(true);
 	green = false;
+	tLSSObject = true;
 	time = 0;
 }
 

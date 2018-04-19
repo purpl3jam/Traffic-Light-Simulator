@@ -104,10 +104,31 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 				// Increase individual wait time
 				individualTime++;
 
+				// Set North North red count
+				if (pObject->tLNNObject == true) {
+					//cout << 3;
+					redNN = true;
+				}
+				else {
+					redNN = false;
+				}
+
+				// Set South North red count
+				if (pObject->tLSNObject == true) {
+					//cout << 3;
+					redSN = true;
+				}
+				else {
+					redSN = false;
+				}
+
 				// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
 				return;
 			}
+			// Neutralise reds once collision lost
+			redNN = false;
+			redSN = false;
 		}
 	}
 	/********** END EXTRA STUFF FOR COLLISIONS **********/
@@ -124,6 +145,7 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 	else if (m_iCurrentScreenY < 0 || m_iCurrentScreenY >= 969 || m_iCurrentScreenX < 0 || (m_iCurrentScreenX > 1000 && m_iCurrentScreenX < 1100)) {
 		m_iCurrentScreenY = YStart;
 		m_iCurrentScreenX = XStart;
+		individualTime = 0;
 	}
 	// Lane directions
 	else if (m_iCurrentScreenX < 550 && m_iCurrentScreenX == 510 && m_iCurrentScreenY < 209 && m_iCurrentScreenY >= 0) {

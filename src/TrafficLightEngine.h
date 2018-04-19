@@ -15,8 +15,9 @@ public:
 	void SpawnNorthWestVehicles(int i);
 	void SpawnSouthEastVehicles(int i);
 	void SpawnNorthEastVehicles(int i);
-	void DrawIndividualWaitTime(int time, int x, int y);
 	void DrawStringsOnTop();
+	void MachineLearningAlgorithm();
+	void RedCounting();
 
 	int quantity;
 	int nQuantity;
@@ -41,7 +42,15 @@ public:
 	int totalTime;
 
 	// Traffic light variables
-	bool verticle;
+	bool mLAlgorithmOn;
+	int sSRed;
+	int nSRed;
+	int sNRed;
+	int nNRed;
+	int sWRed;
+	int nWRed;
+	int sERed;
+	int nERed;
 
 private:
 	//TrafficLightEngine m_oTiles;

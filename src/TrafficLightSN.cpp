@@ -23,6 +23,7 @@ TrafficLightSN::TrafficLightSN(BaseEngine* pEngine)
 	m_iDrawHeight = 10;
 	// And make it visible
 	SetVisible(true);
+	tLSNObject = true;
 }
 
 TrafficLightSN::~TrafficLightSN(void)
