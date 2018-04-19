@@ -1,6 +1,8 @@
 #pragma once
 #include "BaseEngine.h"
 #include "TileManager.h"
+#include <time.h>
+
 class TrafficLightEngine :
 	public BaseEngine
 {
@@ -37,11 +39,13 @@ public:
 
 
 	// Time variables
-	int i;
-	int arraySize;
+	//int i;
+	int sArraySize;
+	int tArraySize;
 	int arrayTotal;
 	int arrayAverage;
-	int sTimes[10000];
+	int sTimes[1000];
+	int tTimes[10000];
 	int sIndividualTime;
 	int nIndividualTime;
 	int sWIndividualTime;
@@ -49,11 +53,19 @@ public:
 	int sEIndividualTime;
 	int nEIndividualTime;
 	int totalTime;
+	int firstTime;
+	int secondTime;
+	int averageTime;
+
+	time_t start, end;
+	int elapsed;
 
 	// Traffic light variables
 	bool mLAlgorithmOn;
 	int sSRed;
 	int nSRed;
+
+
 	int sNRed;
 	int nNRed;
 	int sWRed;

@@ -61,8 +61,8 @@ void VehicleObjectSouth::Draw(void)
 
 void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 {
-
-
+	
+	time++;
 
 	/********** EXTRA STUFF FOR COLLISIONS **********/
 
@@ -208,6 +208,9 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 
 	// Clear Total counter
 	p_mainEngine->CopyBackgroundPixels(290, 60, 200, 100);
+
+	// Clear Time counter
+	p_mainEngine->CopyBackgroundPixels(700, 940, 200, 60);
 
 	// Ensure that the object gets redrawn on the display, if something changed
 	RedrawObjects();

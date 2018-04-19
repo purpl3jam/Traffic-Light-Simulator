@@ -67,15 +67,25 @@ TrafficLightEngine::TrafficLightEngine()
 
 	// Machine learning variables
 	mLAlgorithmOn = true;
-	sProportion = 150;
+	sProportion = 200;
 	sMultiplier = 1;
-	nProportion = 150;
+	nProportion = 200;
 	nMultiplier = 1;
 
 	totalTime = 0;
-	i = 0;
-	arraySize = 10000;
+	//i = 0;
+	sArraySize = 1000;
+	tArraySize = 10000;
 	arrayTotal = 0;
+	for (int i = 0; i < sArraySize; i++) {
+		sTimes[i] = 0;
+	}
+	for (int i = 0; i < tArraySize; i++) {
+		tTimes[i] = 0;
+	}
+
+	firstTime = 0;
+	secondTime = 0;
 }
 
 
@@ -282,16 +292,26 @@ void TrafficLightEngine::DrawStringsOnTop()
 	}
 	// Get average
 	sIndividualTime = sIndividualTime / sQuantity;
-	/*sTimes[i] = sIndividualTime;
-	i++;
-	for (int j = 0; j < i; j++) {
+
+	/*sTimes[0] = sIndividualTime;
+	//cout << totalTime;
+	for (int i = 1; i < sArraySize; i++) {
+		if (sTimes[i] == 0) {
+			sTimes[i] = sTimes[0];
+		}
+	}
+	for (int j = 0; j < sArraySize; j++) {
 		arrayTotal = arrayTotal + sTimes[j];
 	}
-	arrayAverage = arrayTotal / i;*/
 
+	averageTime = arrayTotal / sArraySize;*/
 	std::string s = std::to_string(sIndividualTime);
 	char const* schar = s.c_str();
 	DrawScreenString(350, 970, schar, 0xe87410, NULL);
+
+	//for (int k = sArraySize; k > 0; k--) {
+	//	tTimes[k] = tTimes[k - 1];
+	//}
 
 
 
@@ -362,9 +382,12 @@ void TrafficLightEngine::DrawStringsOnTop()
 
 
 
+	
+	
 	/********** Draw South East times **********/
 	DrawScreenString(720, 800, "Avg SE Wait:", 0x000000, NULL);
 
+	
 	sEIndividualTime = 0;
 	// Get wait times for all South East vehicles
 	DisplayableObject* vSEObject;
@@ -412,25 +435,58 @@ void TrafficLightEngine::DrawStringsOnTop()
 
 	//cout << sIndividualTime;
 	//cout << "/";
-
+	arrayTotal = 0;
 	totalTime = 0;
 	totalTime = ((sIndividualTime * sQuantity)  + (nIndividualTime * nQuantity) + (sWIndividualTime * sWQuantity) + (nWIndividualTime * nWQuantity) + (sEIndividualTime * sEQuantity) + (nEIndividualTime * nEQuantity)) / (0.6 * quantity);
 	
 	//cout << (sIndividualTime + nIndividualTime + sWIndividualTime + nWIndividualTime + sEIndividualTime + nEIndividualTime);
 	//cout << "/";
 
-	std::string sT = std::to_string(totalTime);
-	char const* tchar = sT.c_str();
-	DrawScreenString(290, 60, tchar, 0x22ad0f, NULL);
+	/*firstTime = totalTime;
+	if (secondTime == 0) {
+		secondTime = firstTime;
+	}
+	averageTime = (firstTime + secondTime) / 2;*/
+
+	tTimes[0] = totalTime;
+	//cout << totalTime;
+	for (int i = 1; i < tArraySize; i++) {
+		if (tTimes[i] == 0) {
+			tTimes[i] = tTimes[0];
+		}
+	}
+	for (int j = 0; j < tArraySize; j++) {
+		arrayTotal = arrayTotal + tTimes[j];
+	}
+
+	averageTime = arrayTotal / tArraySize;
+
+	std::string sTT = std::to_string(averageTime);
+	char const* ttchar = sTT.c_str();
+	DrawScreenString(290, 60, ttchar, 0x22ad0f, NULL);
+
+	for (int k = tArraySize; k > 0; k--) {
+		tTimes[k] = tTimes[k - 1];
+	}
 
 
 
 	/********** Display time **********/
-	/*DrawScreenString(600, 940, "Time(s):", 0x000000, NULL);
-	time_t seconds;
-	seconds = time(NULL);
-	char* dt = ctime(&seconds);
-	DrawScreenString(700, 940, dt, 0x22ad0f, NULL);*/
+	DrawScreenString(600, 940, "Time:", 0x000000, NULL);
+
+	DisplayableObject* tObject;
+	for (int iObjectId = baseObjects; (tObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (tObject->sVehicleObject == true) {
+			elapsed = tObject->time;
+		}
+	}
+	elapsed = elapsed / 61;
+
+	std::string t = std::to_string(elapsed);
+	char const* tchar = t.c_str();
+	DrawScreenString(700, 940, tchar, 0x22ad0f, NULL);
 }
 
 void TrafficLightEngine::MachineLearningAlgorithm()

@@ -19,6 +19,9 @@ public:
 	int direction;
 	//int individualTime;
 	int totalTime;
+	int temp;
+
+	//int iElapsed;
 
 private:
 
