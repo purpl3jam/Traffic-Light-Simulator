@@ -65,9 +65,17 @@ TrafficLightEngine::TrafficLightEngine()
 	// Midday == 3
 	timeOfDay = 1;
 
+	// Machine learning variables
 	mLAlgorithmOn = true;
+	sProportion = 150;
+	sMultiplier = 1;
+	nProportion = 150;
+	nMultiplier = 1;
 
 	totalTime = 0;
+	i = 0;
+	arraySize = 10000;
+	arrayTotal = 0;
 }
 
 
@@ -128,7 +136,10 @@ int TrafficLightEngine::InitialiseObjects(void)
 	StoreObjectInArray(13, new TrafficLightNW(this));
 	StoreObjectInArray(14, new TrafficLightSE(this));
 	StoreObjectInArray(15, new TrafficLightNE(this));
+	//cout << sProportion;
+	//cout << "/";
 	//MachineLearningAlgorithm();
+	//RedCounting();
 
 
 	//Generate South vehicles
@@ -251,7 +262,7 @@ void TrafficLightEngine::SpawnNorthEastVehicles(int i)
 
 void TrafficLightEngine::DrawStringsOnTop()
 {
-
+	// Implement machine learning algorithm
 	MachineLearningAlgorithm();
 
 
@@ -271,6 +282,12 @@ void TrafficLightEngine::DrawStringsOnTop()
 	}
 	// Get average
 	sIndividualTime = sIndividualTime / sQuantity;
+	/*sTimes[i] = sIndividualTime;
+	i++;
+	for (int j = 0; j < i; j++) {
+		arrayTotal = arrayTotal + sTimes[j];
+	}
+	arrayAverage = arrayTotal / i;*/
 
 	std::string s = std::to_string(sIndividualTime);
 	char const* schar = s.c_str();
@@ -418,20 +435,10 @@ void TrafficLightEngine::DrawStringsOnTop()
 
 void TrafficLightEngine::MachineLearningAlgorithm()
 {
-
-	
 	if (mLAlgorithmOn == true) {
 		RedCounting();
-	}
-	else {
-		/*StoreObjectInArray(8, new TrafficLightSS(this));
-		StoreObjectInArray(9, new TrafficLightNS(this));
-		StoreObjectInArray(10, new TrafficLightNN(this));
-		StoreObjectInArray(11, new TrafficLightSN(this));
-		StoreObjectInArray(12, new TrafficLightSW(this));
-		StoreObjectInArray(13, new TrafficLightNW(this));
-		StoreObjectInArray(14, new TrafficLightSE(this));
-		StoreObjectInArray(15, new TrafficLightNE(this));*/
+		SouthTrafficLights();
+		NorthTrafficLights();
 	}
 }
 
@@ -470,7 +477,7 @@ void TrafficLightEngine::RedCounting() {
 
 		}
 	}
-	cout << nSRed;
+	//cout << nSRed;
 
 
 
@@ -586,3 +593,39 @@ void TrafficLightEngine::RedCounting() {
 	}
 	//cout << nERed;
 }
+
+void TrafficLightEngine::SouthTrafficLights()
+{
+	sMultiplier = 1;
+	if ((sSRed + sNRed) > (sWRed + sERed)) {
+		sDifference = (sSRed + sNRed) - (sWRed + sERed);
+		sMultiplier = 1 - (0.001 * sDifference);
+		sProportion = sMultiplier * sProportion;
+	}
+	else if ((sSRed + sNRed) < (sWRed + sERed)) {
+		sDifference = (sWRed + sERed) - (sSRed + sNRed);
+		sMultiplier = 1 - (0.001 * sDifference);
+		sProportion = 400 - (sMultiplier * 250);
+	}
+
+	//cout << sProportion;
+	//cout << "::";
+}
+
+void TrafficLightEngine::NorthTrafficLights()
+{
+	nMultiplier = 1;
+	if ((nSRed + nNRed) > (nWRed + nERed)) {
+		nDifference = (nSRed + nNRed) - (nWRed + nERed);
+		nMultiplier = 1 - (0.001 * nDifference);
+		nProportion = nMultiplier * nProportion;
+	}
+	else if ((nSRed + nNRed) < (nWRed + nERed)) {
+		nDifference = (nWRed + nERed) - (nSRed + nNRed);
+		nMultiplier = 1 - (0.001 * nDifference);
+		nProportion = 400 - (nMultiplier * 250);
+	}
+	//cout << nProportion;
+	//cout << "/";
+}
+

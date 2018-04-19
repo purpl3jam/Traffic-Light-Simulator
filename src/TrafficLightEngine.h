@@ -18,6 +18,8 @@ public:
 	void DrawStringsOnTop();
 	void MachineLearningAlgorithm();
 	void RedCounting();
+	void NorthTrafficLights();
+	void SouthTrafficLights();
 
 	int quantity;
 	int nQuantity;
@@ -33,6 +35,13 @@ public:
 	int baseObjects;
 	int timeOfDay;
 
+
+	// Time variables
+	int i;
+	int arraySize;
+	int arrayTotal;
+	int arrayAverage;
+	int sTimes[10000];
 	int sIndividualTime;
 	int nIndividualTime;
 	int sWIndividualTime;
@@ -51,6 +60,14 @@ public:
 	int nWRed;
 	int sERed;
 	int nERed;
+
+	double sProportion;
+	int sDifference;
+	double sMultiplier;
+
+	double nProportion;
+	int nDifference;
+	double nMultiplier;
 
 private:
 	//TrafficLightEngine m_oTiles;
