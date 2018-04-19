@@ -24,6 +24,7 @@ TrafficLightSE::TrafficLightSE(TrafficLightEngine* pEngine)
 	m_iDrawHeight = 45;
 	// And make it visible
 	SetVisible(true);
+	time = 0;
 	tLSEObject = true;
 }
 
@@ -73,7 +74,7 @@ void TrafficLightSE::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
-	if (modTime >= p_mainEngine->sProportion) {
+	if (modTime > p_mainEngine->sProportion) {
 		green = false;
 	}
 	else {

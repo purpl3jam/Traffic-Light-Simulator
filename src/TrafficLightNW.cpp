@@ -3,7 +3,9 @@
 
 #include "TrafficLightNW.h"
 
+#include <iostream>
 
+using namespace std;
 
 TrafficLightNW::TrafficLightNW(TrafficLightEngine* pEngine)
 	: DisplayableObject(pEngine)
@@ -24,6 +26,7 @@ TrafficLightNW::TrafficLightNW(TrafficLightEngine* pEngine)
 	m_iDrawHeight = 45;
 	// And make it visible
 	SetVisible(true);
+	time = 0;
 	tLNWObject = true;
 }
 
@@ -73,6 +76,7 @@ void TrafficLightNW::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
+	//cout << "_____";
 	if (modTime >= p_mainEngine->nProportion) {
 		green = false;
 	}
