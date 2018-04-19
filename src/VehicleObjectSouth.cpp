@@ -33,6 +33,7 @@ VehicleObjectSouth::VehicleObjectSouth(TrafficLightEngine* pEngine, int startX, 
 	green = true;
 	individualTime = 0;
 	totalTime = 0;
+	sVehicleObject = true;
 }
 
 VehicleObjectSouth::~VehicleObjectSouth(void)
@@ -112,7 +113,7 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 				individualTime++;
 
 				// Increase total wait time
-				DisplayableObject* tObject;
+				/*DisplayableObject* tObject;
 				for (int iObjectId = 0; (tObject = p_mainEngine->GetDisplayableObject(iObjectId)) != NULL;
 					iObjectId++)
 				{
@@ -120,7 +121,7 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 						continue;
 
 					totalTime = totalTime + tObject->individualTime;
-				}
+				}*/
 
 			// Ensure that the object gets redrawn on the display, if something changed
 				RedrawObjects();
@@ -191,8 +192,11 @@ void VehicleObjectSouth::DoUpdate(int iCurrentTime)
 		}
 	}
 
+	// Clear South counter
+	p_mainEngine->CopyBackgroundPixels(300, 900, 200, 100);
 
-
+	// Clear Total counter
+	p_mainEngine->CopyBackgroundPixels(290, 60, 200, 100);
 
 	// Ensure that the object gets redrawn on the display, if something changed
 	RedrawObjects();

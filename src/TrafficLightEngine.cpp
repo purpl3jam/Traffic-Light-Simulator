@@ -35,6 +35,9 @@
 #include <string>
 #include <sstream>
 #include <stdexcept>
+#include <stdio.h>
+#include <time.h>
+#include <ctime>
 
 using namespace std;
 
@@ -49,7 +52,7 @@ TrafficLightEngine::TrafficLightEngine()
 
 	// Number of vehicles
 	sQuantity = 40;
-	nQuantity = 040;
+	nQuantity = 40;
 	sWQuantity = 5;
 	nWQuantity = 5;
 	sEQuantity = 5;
@@ -60,9 +63,8 @@ TrafficLightEngine::TrafficLightEngine()
 	// Morning == 1
 	// Evening == 2
 	// Midday == 3
-	timeOfDay = 1;
+	timeOfDay = 2;
 
-	individualTime = 0;
 	totalTime = 0;
 }
 
@@ -247,20 +249,163 @@ void TrafficLightEngine::SpawnNorthEastVehicles(int i)
 
 void TrafficLightEngine::DrawStringsOnTop()
 {
+	/********** Draw South times **********/
+	DrawScreenString(120, 970, "Avg South Wait:", 0x000000, NULL);
+
+	sIndividualTime = 0;
+	// Get wait times for all South vehicles
 	DisplayableObject* vSObject;
 	for (int iObjectId = baseObjects; (vSObject = GetDisplayableObject(iObjectId)) != NULL;
 		iObjectId++)
 	{
+		if (vSObject->sVehicleObject == true) {
 
+			sIndividualTime = sIndividualTime + vSObject->individualTime;
+		}
 	}
-	// Display individual wait time	//p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
-	individualTime = 0;
-	std::string s = std::to_string(individualTime);
-	char const* pchar = s.c_str();
-	DrawScreenString(350, 970, pchar, 0xaf0e0e, NULL);
+	// Get average
+	sIndividualTime = sIndividualTime / sQuantity;
 
-	// Display total wait time	//p_mainEngine->CopyBackgroundPixels(100/*X*/, 30/*Y*/, 100, 30);
+	std::string s = std::to_string(sIndividualTime);
+	char const* schar = s.c_str();
+	DrawScreenString(350, 970, schar, 0xe87410, NULL);
+
+
+
+	/********** Draw North times **********/
+	DrawScreenString(550, 0, "Avg North Wait:", 0x000000, NULL);
+
+	nIndividualTime = 0;
+	// Get wait times for all North vehicles
+	DisplayableObject* vNObject;
+	for (int iObjectId = baseObjects; (vNObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (vNObject->nVehicleObject == true) {
+			nIndividualTime = nIndividualTime + vNObject->individualTime;
+		}
+	}
+	// Get average
+	nIndividualTime = nIndividualTime / nQuantity;
+
+	std::string n = std::to_string(nIndividualTime);
+	char const* nchar = n.c_str();
+	DrawScreenString(780, 0,nchar, 0xe87410, NULL);
+
+
+
+	/********** Draw South West times **********/
+	DrawScreenString(0, 670, "Avg SW Wait:", 0x000000, NULL);
+
+	sWIndividualTime = 0;
+	// Get wait times for all South West vehicles
+	DisplayableObject* vSWObject;
+	for (int iObjectId = baseObjects; (vSWObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (vSWObject->sWVehicleObject == true) {
+
+			sWIndividualTime = sWIndividualTime + vSWObject->individualTime;
+		}
+	}
+	// Get average
+	sWIndividualTime = sWIndividualTime / sWQuantity;
+
+	std::string sw = std::to_string(sWIndividualTime);
+	char const* swchar = sw.c_str();
+	DrawScreenString(190, 670, swchar, 0xe87410, NULL);
+
+
+
+	/********** Draw North West times **********/
+	DrawScreenString(0, 170, "Avg NW Wait:", 0x000000, NULL);
+
+	nWIndividualTime = 0;
+	// Get wait times for all North West vehicles
+	DisplayableObject* vNWObject;
+	for (int iObjectId = baseObjects; (vNWObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (vNWObject->nWVehicleObject == true) {
+			nWIndividualTime = nWIndividualTime + vNWObject->individualTime;
+		}
+	}
+	// Get average
+	nWIndividualTime = nWIndividualTime / nWQuantity;
+
+	std::string nw = std::to_string(nWIndividualTime);
+	char const* nwchar = nw.c_str();
+	DrawScreenString(190, 170, nwchar, 0xe87410, NULL);
+
+
+
+	/********** Draw South East times **********/
+	DrawScreenString(720, 800, "Avg SE Wait:", 0x000000, NULL);
+
+	sEIndividualTime = 0;
+	// Get wait times for all South East vehicles
+	DisplayableObject* vSEObject;
+	for (int iObjectId = baseObjects; (vSEObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (vSEObject->sEVehicleObject == true) {
+
+			sEIndividualTime = sEIndividualTime + vSEObject->individualTime;
+		}
+	}
+	// Get average
+	sEIndividualTime = sEIndividualTime / sEQuantity;
+
+	std::string se = std::to_string(sEIndividualTime);
+	char const* sechar = se.c_str();
+	DrawScreenString(910, 800, sechar, 0xe87410, NULL);
+
+
+
+	/********** Draw North East times **********/
+	DrawScreenString(720, 300, "Avg NE Wait:", 0x000000, NULL);
+
+	nEIndividualTime = 0;
+	// Get wait times for all North East vehicles
+	DisplayableObject* vNEObject;
+	for (int iObjectId = baseObjects; (vNEObject = GetDisplayableObject(iObjectId)) != NULL;
+		iObjectId++)
+	{
+		if (vNEObject->nEVehicleObject == true) {
+			nEIndividualTime = nEIndividualTime + vNEObject->individualTime;
+		}
+	}
+	// Get average
+	nEIndividualTime = nEIndividualTime / nEQuantity;
+
+	std::string ne = std::to_string(nEIndividualTime);
+	char const* nechar = ne.c_str();
+	DrawScreenString(910, 300, nechar, 0xe87410, NULL);
+
+
+
+	/********** Display total wait time **********/
+	DrawScreenString(60, 60, "Avg Total Wait:", 0x000000, NULL);
+
+	//cout << sIndividualTime;
+	//cout << "/";
+
+	totalTime = 0;
+	totalTime = ((sIndividualTime * sQuantity)  + (nIndividualTime * nQuantity) + (sWIndividualTime * sWQuantity) + (nWIndividualTime * nWQuantity) + (sEIndividualTime * sEQuantity) + (nEIndividualTime * nEQuantity)) / (0.6 * quantity);
+	
+	//cout << (sIndividualTime + nIndividualTime + sWIndividualTime + nWIndividualTime + sEIndividualTime + nEIndividualTime);
+	//cout << "/";
+
 	std::string sT = std::to_string(totalTime);
 	char const* tchar = sT.c_str();
-	DrawScreenString(100, 30, tchar, 0x22ad0f, NULL);
+	DrawScreenString(290, 60, tchar, 0x22ad0f, NULL);
+
+
+
+	/********** Display time **********/
+	/*DrawScreenString(600, 940, "Time(s):", 0x000000, NULL);
+	time_t seconds;
+	seconds = time(NULL);
+	char* dt = ctime(&seconds);
+	DrawScreenString(700, 940, dt, 0x22ad0f, NULL);*/
 }
