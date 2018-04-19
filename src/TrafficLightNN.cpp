@@ -26,6 +26,7 @@ TrafficLightNN::TrafficLightNN(TrafficLightEngine* pEngine)
 	m_iDrawHeight = 10;
 	// And make it visible
 	SetVisible(true);
+	time = 0;
 	tLNNObject = true;
 }
 
@@ -75,8 +76,8 @@ void TrafficLightNN::DoUpdate(int iCurrentTime) {
 
 	// Determine green time
 	int modTime = time % 400;
-	cout << "::";
-	cout << p_mainEngine->nProportion;
+	//cout << "::";
+	//cout << p_mainEngine->nProportion;
 	//cout << modTime;
 	if (modTime <= p_mainEngine->nProportion) {
 		green = false;

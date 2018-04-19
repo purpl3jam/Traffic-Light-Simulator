@@ -24,6 +24,7 @@ TrafficLightSN::TrafficLightSN(TrafficLightEngine* pEngine)
 	m_iDrawHeight = 10;
 	// And make it visible
 	SetVisible(true);
+	time = 0;
 	tLSNObject = true;
 }
 

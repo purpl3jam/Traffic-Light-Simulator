@@ -69,6 +69,8 @@ void TrafficLightSS::Draw(void)
 		0xaf0e0e);
 	// This will store the position at which the object was drawn
 	// so that the background can be drawn over the top.
+
+
 	// This will then remove the object from the screen.
 	StoreLastScreenPositionForUndraw();*/
 }
@@ -78,8 +80,8 @@ void TrafficLightSS::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
-	cout << "_____";
-	cout << p_mainEngine->sProportion;
+	//cout << "_____";
+	//cout << p_mainEngine->sProportion;
 	//cout << "-----";
 	if (modTime <= p_mainEngine->sProportion) {
 		//cout << 4;

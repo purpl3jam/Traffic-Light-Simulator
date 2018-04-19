@@ -3,7 +3,9 @@
 
 #include "TrafficLightNE.h"
 
+#include <iostream>
 
+using namespace std;
 
 TrafficLightNE::TrafficLightNE(TrafficLightEngine* pEngine)
 	: DisplayableObject(pEngine)
@@ -24,6 +26,7 @@ TrafficLightNE::TrafficLightNE(TrafficLightEngine* pEngine)
 	m_iDrawHeight = 45;
 	// And make it visible
 	SetVisible(true);
+	time = 0;
 	tLNEObject = true;
 }
 
@@ -73,6 +76,7 @@ void TrafficLightNE::DoUpdate(int iCurrentTime) {
 	// Determine green time
 	int modTime = time % 400;
 	//cout << modTime;
+	//cout << "::";
 	if (modTime >= p_mainEngine->nProportion) {
 		green = false;
 	}
