@@ -30,6 +30,7 @@ VehicleObjectNorth::VehicleObjectNorth(TrafficLightEngine* pEngine, int startX, 
 
 	green = true;
 	individualTime = 0;
+	nVehicleObject = true;
 }
 
 VehicleObjectNorth::~VehicleObjectNorth(void)
@@ -45,11 +46,6 @@ void VehicleObjectNorth::Draw(void)
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xe87410);
 
-	// Display individual wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
-	std::string s = std::to_string(individualTime);
-	char const* pchar = s.c_str();
-	p_mainEngine->DrawScreenString(550, 0, pchar, 0xaf0e0e, NULL);
-
 	// This will store the position at which the object was drawn
 	// so that the background can be drawn over the top.
 	// This will then remove the object from the screen.
@@ -58,6 +54,7 @@ void VehicleObjectNorth::Draw(void)
 
 void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 {
+
 
 	/********** EXTRA STUFF FOR COLLISIONS **********/
 
@@ -170,7 +167,8 @@ void VehicleObjectNorth::DoUpdate(int iCurrentTime)
 		}
 	}
 
-
+	// Clear North counter
+	p_mainEngine->CopyBackgroundPixels(730, 0, 200, 100);
 
 
 	// Ensure that the object gets redrawn on the display, if something changed

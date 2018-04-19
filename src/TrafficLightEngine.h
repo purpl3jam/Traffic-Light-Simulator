@@ -31,7 +31,13 @@ public:
 	int blockY;
 	int baseObjects;
 	int timeOfDay;
-	int individualTime;
+
+	int sIndividualTime;
+	int nIndividualTime;
+	int sWIndividualTime;
+	int nWIndividualTime;
+	int sEIndividualTime;
+	int nEIndividualTime;
 	int totalTime;
 
 	// Traffic light variables

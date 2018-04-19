@@ -31,6 +31,7 @@ VehicleObjectSouthWest::VehicleObjectSouthWest(TrafficLightEngine* pEngine, int 
 
 	green = true;
 	individualTime = 0;
+	sWVehicleObject = true;
 }
 
 VehicleObjectSouthWest::~VehicleObjectSouthWest(void)
@@ -46,10 +47,6 @@ void VehicleObjectSouthWest::Draw(void)
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0xe87410);
 
-	// Display individual wait time	p_mainEngine->UnDrawStrings();	p_mainEngine->CopyBackgroundPixels(0/*X*/, 0/*Y*/, p_mainEngine->GetScreenWidth(), p_mainEngine->GetScreenHeight());
-	std::string s = std::to_string(individualTime);
-	char const* pchar = s.c_str();
-	p_mainEngine->DrawScreenString(0, 670, pchar, 0xaf0e0e, NULL);
 
 	// This will store the position at which the object was drawn
 	// so that the background can be drawn over the top.
@@ -177,7 +174,8 @@ void VehicleObjectSouthWest::DoUpdate(int iCurrentTime)
 		}
 	}
 
-
+	// Clear South West counter
+	p_mainEngine->CopyBackgroundPixels(190, 650, 200, 100);
 
 
 	// Ensure that the object gets redrawn on the display, if something changed
